@@ -24,10 +24,10 @@ def main(argv):
     # Delete unused argument
     del argv 
 
-    # Generate GPG private key, public key and passphrase
+    # Generate GPG private key, public key and passphrase.
     private_key, public_key, passphrase = generate_gpg_key(FLAGS.email_id)
     
-    # Encrypt passphrase with GCP cloud KMS key.
+    # Call GCP Cloud KMS to encrypt passphrase.
     encrypted_passphrase = encrypt_passphrase(FLAGS.project_id, FLAGS.kms_keyring, FLAGS.kms_key, passphrase)
 
     # Create encrypted passphrase secret object in GCP secret manager.

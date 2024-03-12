@@ -2,7 +2,7 @@ from absl import app
 from absl import flags
 import sys
 from clients.logger_client import gpg_logger
-from clients.gpg_client import decrypt_file
+from clients.gpg_client import decrypt_gpg_file
 from clients.kms_client import decrypt_passphrase
 from clients.secrets_client import get_secret
 from clients.storage_client import write_output_file_to_disk, write_output_file_to_bucket
@@ -48,7 +48,7 @@ def main(argv):
 
     # Decrypt GPG Encrypted File.
     private_key = private_key.decode("UTF-8")
-    plaintext_data = decrypt_file(private_key, passphrase, FLAGS.encrypted_file_path)
+    plaintext_data = decrypt_gpg_file(private_key, passphrase, FLAGS.encrypted_file_path)
 
     # Write output file data to disk or cloud storage if decryption is successful else log error.
     if plaintext_data.ok:

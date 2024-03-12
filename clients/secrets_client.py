@@ -1,35 +1,44 @@
+"""
+Secrets Manager Module 
+    - creates and gets secrets (encrypted passphrase & passphrase protected private key)
+"""
+
 from google.cloud import secretmanager
 from clients.logger_client import gpg_logger
 
-def create_secret(project_id, secret_id):
+def create_secret(project_id: str, secret_id: str) -> None:
+    # Create secret
+
     # Initialize Secret Manager client.
     client = secretmanager.SecretManagerServiceClient()
 
     # Build parent resource name.
     parent = f"projects/{project_id}"
 
-    # Build parent request and initialize arguments.
+    # Build parent request, initialize arguments and create secret.
     parent_request = {"parent": parent, "secret_id": secret_id, "secret": {"replication": {"automatic": {}}}}
-    secret = client.create_secret(request=parent_request)
+    client.create_secret(request=parent_request)
 
-    return secret
+def add_secret(project_id: str, secret_id: str, payload: bytes) -> None:
+    # Add secret version to secrets manager.
 
-def add_secret(project_id, secret_id, payload):
     # Initialize Secret Manager client.
     client = secretmanager.SecretManagerServiceClient()
     
-    # Build parent
+    # Build path to parent.
     parent = client.secret_path(project_id, secret_id)
 
-    # Add secret version
+    # Add secret version.
     request = {"parent": parent, "payload": {"data": payload}}
     response = client.add_secret_version(request=request)
 
-    # Print the new secret version name.
-    print(f"Secret version {response.name} added")
+    # Log Message that secret version has been added.
+    gpg_logger.info(f"{response.name} added")
 
 
-def get_secret(project_id, secret_id, version_id):
+def get_secret(project_id: str, secret_id: str, version_id: str) -> bytes:
+    # Get secret (private key or passphrase) from secrets manager.
+
     # Initialize Secret Manager client.
     client = secretmanager.SecretManagerServiceClient()
 
@@ -45,7 +54,8 @@ def get_secret(project_id, secret_id, version_id):
     # Get payload.
     payload = response.payload.data
 
-    # Log Message
+    # Log Message.
     gpg_logger.info(f"{secret_id} retrieved from GCP Secret Manager")
 
+    # return payload.
     return payload
