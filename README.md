@@ -106,8 +106,8 @@ python gpg_generate_cli.py --email_id <email> \
  ```Shell
  python gpg_decrypt_cli.py --project_id <gcp project id> \
     --kms_keyring "cloud_kms_keyring_name"\
-    --kms_key `<cloud kms key name>` \
-    --privkey_sid <private key secret id in GCP secrets manager>\
+    --kms_key "cloud_kms_key_name" \
+    --privkey_sid "private-key_secret-id_in_GCP_secrets_manager" \
     --pass_sid <passphrase secret id in secrets manager> \
     --input_path <location of encrypted file on disk> \
     --version <secret version number> \
