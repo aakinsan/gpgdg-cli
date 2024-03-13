@@ -40,6 +40,7 @@ The project aims to address the following security concerns:
     - Cloud KMS Symmetric encrypt/decrypt key.
     - Cloud Storage bucket. 
     - Cloud Logging.
+    - Secrets Manager.
 
 - Install gcloud - Google Cloud CLI.
     - Steps to install can be found here - https://cloud.google.com/sdk/docs/install#deb
@@ -63,10 +64,11 @@ $ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-- Setup Application Default Credentials (ADC) and impersonate service account using gcloud (https://cloud.google.com/docs/authentication/provide-credentials-adc) and login using the user account that has been assigned the service account token creator role. 
+- Set project, enable Application Default Credentials (ADC) and impersonate service account using gcloud (https://cloud.google.com/docs/authentication/provide-credentials-adc) and login using the user account that has been assigned the service account token creator role. 
 
 ```
 $ gcloud auth application-default login --impersonate-service-account <service_account_name>@<project_id>.iam.gserviceaccount.com
+$ gcloud config set project <gcp_project_id>
 ```
 > [!NOTE]  
 >
