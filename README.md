@@ -63,7 +63,7 @@ $ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-- Setup Application Default Credentials (ADC) and impersonate service account using gcloud (- https://cloud.google.com/docs/authentication/provide-credentials-adc) and login using the user account that has been assigned the service account token creator role. 
+- Setup Application Default Credentials (ADC) and impersonate service account using gcloud (https://cloud.google.com/docs/authentication/provide-credentials-adc) and login using the user account that has been assigned the service account token creator role. 
 
 ```
 $ gcloud auth application-default login --impersonate-service-account <service_account_name>@<project_id>.iam.gserviceaccount.com
