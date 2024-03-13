@@ -115,6 +115,6 @@ python gpg_generate_cli.py --email_id "email" \
 
 > [!NOTE]  
 >
-> All flags are mandatory with the exception of --output_path, --bucket and --version for decrypt operations. 
+> All flags are mandatory with the exception of `--output_path`, `--bucket` and `--version` for decrypt operations. 
 > You must specify either a bucket name or output path to store the decrypted file.
-> --version number is optional and defaults to the version 1 secret if not specified.
+> `--version` number is optional and defaults to the version 1 secret if not specified.
