@@ -57,7 +57,7 @@ pip install -r requirements.txt
 ```
 $ gcloud auth application-default login --impersonate-service-account <service_account_name>@<project_id>.iam.gserviceaccount.com
 ```
-> **Note:** 
+> [!NOTE]  
 >
 > Revoke ADC access & refresh tokens generated after using this tool - https://cloud.google.com/sdk/gcloud/reference/auth/application-default/revoke 
 
@@ -66,7 +66,7 @@ $ gcloud auth application-default login --impersonate-service-account <service_a
 
 ```
 python gpg_generate_cli.py --email_id <email> \
---project_id <gcp project id> \
+--project_id $\color{blue}{<gcp project id>}$ \
 --kms_keyring <cloud kms key ring name> \
 --kms_key <cloud kms key name> \
 --private_key_id <private key id in GCP secrets manager> \
@@ -89,7 +89,7 @@ python gpg_generate_cli.py --email_id <email> \
 
  ```
  python gpg_decrypt_cli.py --project_id <gcp project id> \
- --kms_keyring <span style="color:blue;">cloud kms key ring name</span>\
+ --kms_keyring <cloud kms key ring name>\
  --kms_key <cloud kms key name> \
  --private_key_id <private key id in GCP secrets manager> \
  --passphrase_id <passphrase id in secrets manager> \
@@ -97,6 +97,6 @@ python gpg_generate_cli.py --email_id <email> \
  --decrypted_file_path <path to store decrypted file on disk>
  ```
 
-> **Note:** 
+> [!NOTE] 
 >
 > All flags are mandatory. For the decrypt operation, you must either specify a cloud storage bucket or location on disk to store the decrypted file.
