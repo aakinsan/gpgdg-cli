@@ -12,14 +12,14 @@ The project aims to address the following security concerns:
 - Limited control and visibility over the security state/profile of the employee's laptop.
 
 ## Features
-- Utilizes elliptic curves Algos - key-curve ed25519 and cv25519.
+- Utilizes elliptic curves Algorithms: key-curve ed25519 and cv25519.
 - 32 character passphrase made up of letters, numbers and special characters is generated to password-protect the private key.
 - This passphrase will remain unknown to anybody. 
 - A Key Encryption Key (KEK) that never leaves Cloud KMS will be used to encrypt the passphrase.
 - The encrypted passphrase and passphrase-protected private key are stored in GCP secrets manager.
-- The public key is written to "public-key.asc" on the folder the tool is run from.
-- For decryption, the passphrase & private key are retrieved from secrets manager, the encrypted passphrase is decrypted by the KEK and used alongside the private-key.
-- Utilizes service account impersonation for all calls to GCP APIs.
+- The public key required for encryption is written to disk.
+- For decryption operation, the passphrase & private key are retrieved from secrets manager, the encrypted passphrase is decrypted by the KMS KEK and used alongside the private-key.
+- Utilizes service account impersonation for all calls to GCP APIs so there is no requirement to download Service Account Private Keys.
 
 ## Installation
 > [!NOTE]  
