@@ -22,23 +22,27 @@ def write_output_file_to_bucket(google_project_id: str, storage_bucket: str, dat
             output_file_storage_bucket = storage_client.get_bucket(storage_bucket)
 
         except NotFound as err:
-              gpg_logger.error(f"That bucket does not exist: {err}: Exiting...")
+              # gpg_logger.error(f"That bucket does not exist: {err}: Exiting...")
+              gpg_logger.log(f"That bucket does not exist: {err}: Exiting...")
               sys.exit(1)
 
         date_time_format = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
         blob_path = f"output_files/{date_time_format}-outputfile.txt"
         blob = Blob(blob_path, output_file_storage_bucket)
         blob.upload_from_string(data)
-        gpg_logger.info(f"output file uploaded to {storage_bucket} bucket.")
+        # gpg_logger.info(f"output file uploaded to {storage_bucket} bucket.")
+        gpg_logger.log(f"output file uploaded to {storage_bucket} bucket.")
 
 def write_public_key_to_disk(file_path: str, public_key: str) -> None:
     # Writes public key to disk
     with open(file_path, "w") as f:
         f.write(public_key)
-        gpg_logger.info(f"Public Key written to {file_path}")
-
+        # gpg_logger.info(f"Public Key written to {file_path}")
+        gpg_logger.log(f"Public Key written to {file_path}")
+        
 def write_output_file_to_disk(file_path: str, plaintext_data: gnupg.Crypt) -> None:
      # Writes output file to disk
      with open(file_path, "w") as f:
             f.write(plaintext_data.data.decode("UTF-8"))
-            gpg_logger.info(f"output file written to {file_path}")
+            # gpg_logger.info(f"output file written to {file_path}")
+            gpg_logger.log(f"output file written to {file_path}")

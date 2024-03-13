@@ -33,7 +33,8 @@ def add_secret_version(project_id: str, secret_id: str, payload: bytes) -> None:
     response = client.add_secret_version(request=request)
 
     # Log Message that secret version has been added.
-    gpg_logger.info(f"{response.name} added")
+    # gpg_logger.info(f"{response.name} added")
+    gpg_logger.log(f"{response.name} added")
 
 
 def get_secret(project_id: str, secret_id: str, version_id: str) -> bytes:
@@ -55,7 +56,8 @@ def get_secret(project_id: str, secret_id: str, version_id: str) -> bytes:
     payload = response.payload.data
 
     # Log Message.
-    gpg_logger.info(f"{secret_id} retrieved from GCP Secret Manager")
-
+    # gpg_logger.info(f"{secret_id} retrieved from GCP Secret Manager")
+    gpg_logger.log(f"{secret_id} retrieved from GCP Secret Manager")
+    
     # return payload.
     return payload

@@ -75,18 +75,18 @@ if __name__ == "__main__":
         app.run(main)
 
     except AlreadyExists as err:
-        gpg_logger.error(f"An error occured: the gcp resource already exists: {err}: Exiting...")
+        gpg_logger.log(f"An error occured: the gcp resource already exists: {err}: Exiting...")
         sys.exit(1)
         
      # Catch exceptions.
     except PermissionDenied as err:
-        gpg_logger.error(f"not enough permission: {err}: Exiting...")
+        gpg_logger.log(f"not enough permission: {err}: Exiting...")
         sys.exit(1)
 
     except DeadlineExceeded as err:
-        gpg_logger.error(f"communication failure on server side - retry gpg_generate_cli: {err}: Exiting...")
+        gpg_logger.log(f"communication failure on server side - retry gpg_generate_cli: {err}: Exiting...")
         sys.exit(1)
     
     except Exception as err:
-        gpg_logger.error(f"An error occured: {err}: Exiting...")
+        gpg_logger.log(f"An error occured: {err}: Exiting...")
         sys.exit(1)
