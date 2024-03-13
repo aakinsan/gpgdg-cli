@@ -5,10 +5,6 @@ Logging Module
 
 import google.cloud.logging
 import logging
-from absl import flags
-
-# Assigning FlagValues Object to FLAGS
-FLAGS = flags.FLAGS
 
 # Instantiates a Google Cloud Logging Client
 client = google.cloud.logging.Client()

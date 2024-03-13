@@ -9,7 +9,7 @@ gpg_decrypt_cli - entry program for file decryption
 from absl import app
 from absl import flags
 import sys
-# from clients.logger_client import gpg_logger
+from clients.logger_client import gpg_logger
 from clients.gpg_client import decrypt_gpg_file
 from clients.kms_client import decrypt_passphrase
 from clients.secrets_client import get_secret
@@ -66,8 +66,7 @@ def main(argv):
         else:
             write_output_file_to_bucket(FLAGS.project_id, FLAGS.bucket, plaintext_data.data.decode("UTF-8"))
     else:
-        # gpg_logger.error(f"decryption failed: {plaintext_data.stderr}")
-        print("Hello")
+        gpg_logger.error(f"decryption failed: {plaintext_data.stderr}")
 
 # Check if script is run directly.
 if __name__ == "__main__":
@@ -81,17 +80,17 @@ if __name__ == "__main__":
     
     # Catch exceptions.
     except PermissionDenied as err:
-        # gpg_logger.error(f"not enough permission: {err}: Exiting...")
+        gpg_logger.error(f"not enough permission: {err}: Exiting...")
         sys.exit(1)
 
     except DeadlineExceeded as err:
-        # gpg_logger.error(f"communication failure on server side - retry gpg_decrypt_cli: {err}: Exiting...")
+        gpg_logger.error(f"communication failure on server side - retry gpg_decrypt_cli: {err}: Exiting...")
         sys.exit(1)
 
     except FileNotFoundError as err:
-        # gpg_logger.error(f"encrypted file not found: {err}: Exiting...")
+        gpg_logger.error(f"encrypted file not found: {err}: Exiting...")
         sys.exit(1)
     
     except Exception as err:
-        # gpg_logger.error(f"An error occured: {err}: Exiting...")
+        gpg_logger.error(f"An error occured: {err}: Exiting...")
         sys.exit(1)
