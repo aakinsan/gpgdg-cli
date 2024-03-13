@@ -68,7 +68,7 @@ def main(argv):
 if __name__ == "__main__":
 
     # Specify mandatory cli flags.
-    flags.mark_flags_as_required(["email_id", "project_id", "kms_key", "kms_kring", "privkey_sid", "pass_sid, output_path"])
+    flags.mark_flags_as_required(["email_id", "project_id", "kms_key", "kms_kring", "privkey_sid", "pass_sid", "output_path"])
     
     try:
         # Run script
