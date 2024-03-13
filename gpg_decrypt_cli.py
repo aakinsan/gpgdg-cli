@@ -62,7 +62,7 @@ def main(argv):
     # if decryption is successful, write output file data to disk or cloud storage else log a decryption error.
     if plaintext_data.ok:
         if FLAGS.output_path:
-            write_output_file_to_disk(FLAGS.output_path, plaintext_data.data.decode("UTF-8"))
+            write_output_file_to_disk(FLAGS.output_path, plaintext_data)
         else:
             write_output_file_to_bucket(FLAGS.project_id, FLAGS.bucket, plaintext_data.data.decode("UTF-8"))
     else:
