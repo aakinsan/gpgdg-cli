@@ -31,7 +31,12 @@ The project aims to address the following security concerns:
     - Cloud Logging: Logs Writer role.
 
 - The user running the tool will require the following role:
-     - Service Account Token Creator role on the service account with the assigned roles above.
+    - Service Account Token Creator role on the service account with the assigned roles above.
+
+- GCP Resources:
+    - Cloud KMS Symmetric encrypt/decrypt key.
+    - Cloud Storage bucket. 
+    - Cloud Logging.
 
 - Install gcloud - Google Cloud CLI.
     - Steps to install can be found here - https://cloud.google.com/sdk/docs/install#deb
@@ -77,7 +82,7 @@ python gpg_generate_cli.py --email_id <email> \
 
  ```
  python gpg_decrypt_cli.py --project_id <gcp project id> \
- $${--kms_keyring \color{blue}<cloud kms key ring name>}$$ \
+ --kms_keyring <cloud kms key ring name> \
  --kms_key <cloud kms key name> \
  --private_key_id <private key id in GCP secrets manager> \
  --passphrase_id <passphrase id in secrets manager> \
