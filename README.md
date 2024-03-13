@@ -44,7 +44,14 @@ $ sudo apt install python3.10-venv
 $ python3 -m venv venv
 $ source venv/bin/activate
 ```
-- Setup Application Default Credentials (ADC) and impersonate service account using gcloud - https://cloud.google.com/docs/authentication/provide-credentials-adc
+
+- Install required packages.
+
+```
+pip install -r requirements.txt
+```
+
+- Setup Application Default Credentials (ADC) and impersonate service account using gcloud - https://cloud.google.com/docs/authentication/provide-credentials-adc.
 
 ```
 $ gcloud auth application-default login --impersonate-service-account <service_account_name>@<project_id>.iam.gserviceaccount.com
