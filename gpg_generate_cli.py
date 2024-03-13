@@ -28,6 +28,7 @@ flags.DEFINE_string("email_id", None, "The email assigned to the GPG key.")
 flags.DEFINE_string("privkey_sid", None, "Secret ID of the GPG Private Key in secrets manager.")
 flags.DEFINE_string("pass_sid", None, "Secret ID of the encrypted passphrase in secrets manager.")
 flags.DEFINE_string("project_id", None, "The GCP project ID.")
+flags.DEFINE_string("output_path", None, "Location on disk to store the public key.")
 
 def main(argv):
 
@@ -61,13 +62,13 @@ def main(argv):
         add_secret_version(FLAGS.project_id, FLAGS.privkey_sid, private_key)
 
     # Write public key to disk.
-    write_public_key_to_disk(public_key)
+    write_public_key_to_disk(FLAGS.output_path, public_key)
 
 # Check if script is run directly.
 if __name__ == "__main__":
 
     # Specify mandatory cli flags.
-    flags.mark_flags_as_required(["email_id", "project_id", "kms_key", "kms_kring", "privkey_sid", "pass_sid"])
+    flags.mark_flags_as_required(["email_id", "project_id", "kms_key", "kms_kring", "privkey_sid", "pass_sid, output_path"])
     
     try:
         # Run script

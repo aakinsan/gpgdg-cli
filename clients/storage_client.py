@@ -31,9 +31,9 @@ def write_output_file_to_bucket(google_project_id: str, storage_bucket: str, dat
         blob.upload_from_string(data)
         gpg_logger.info(f"output file uploaded to {storage_bucket} bucket.")
 
-def write_public_key_to_disk(public_key: str) -> None:
+def write_public_key_to_disk(file_path: str, public_key: str) -> None:
     # Writes public key to disk
-    with open("./public_key.asc", "w") as f:
+    with open(file_path, "w") as f:
         f.write(public_key)
         gpg_logger.info(f"Public Key written to public_key.asc.")
 

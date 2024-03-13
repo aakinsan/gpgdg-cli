@@ -83,7 +83,8 @@ python gpg_generate_cli.py --email_id <email> \
 --kms_kring <cloud kms key ring name> \
 --kms_key <cloud kms key name> \
 --privkey_sid <private key secret id in GCP secrets manager> \
---pass_sid <passphrase secret id in secrets manager>
+--pass_sid <passphrase secret id in secrets manager> \
+--output_path <Location on disk to store public key>
 ```
 
  - To decrypt the encrypted file and store the plaintext file in a GCP Storage Bucket.
