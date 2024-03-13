@@ -32,11 +32,11 @@ def validate_storage_location(flags_dict: dict) -> any:
 flags.DEFINE_string("kms_key", None, "The cloud KMS key name of the KEK.")
 flags.DEFINE_string("kms_kring", None, "The cloud KMS keyring name of the KEK.")
 flags.DEFINE_string("privkey_sid", None, "Secret ID of the GPG Private Key in secrets manager.")
-flags.DEFINE_string("secret_version_number", "1", "version number of Secret ID.")
+flags.DEFINE_string("version", "1", "version number of Secret ID.")
 flags.DEFINE_string("pass_sid", None, "Secret ID of the encrypted passphrase in secrets manager.")
 flags.DEFINE_string("project_id", None, "The GCP project ID.")
 flags.DEFINE_string("input_path", None, "location of encrypted file on disk.")
-flags.DEFINE_string("output_path", None, "Location to write decrypted file on disk.")
+flags.DEFINE_string("output_path", None, "Location to write decrypted file to on disk.")
 flags.DEFINE_string("bucket", None, "Cloud Storage bucket name to upload decrypted blob; files are stored at the path <bucket_name>/output-files")
 
 # Validate Storage Location Flag.
@@ -48,8 +48,8 @@ def main(argv):
     del argv
 
     # Get private key and encrypted passphrase from GCP secret manager.
-    private_key = get_secret(FLAGS.project_id, FLAGS.privkey_sid, FLAGS.secret_version_number)
-    encrypted_passphrase = get_secret(FLAGS.project_id, FLAGS.pass_sid, FLAGS.secret_version_number)
+    private_key = get_secret(FLAGS.project_id, FLAGS.privkey_sid, FLAGS.version)
+    encrypted_passphrase = get_secret(FLAGS.project_id, FLAGS.pass_sid, FLAGS.version)
 
     # Decrypt encrypted passphrase via GCP Cloud KMS.
     passphrase = decrypt_passphrase(FLAGS.project_id, FLAGS.kms_kring, FLAGS.kms_key, encrypted_passphrase)

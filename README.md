@@ -72,22 +72,22 @@ $ gcloud auth application-default login --impersonate-service-account <service_a
 ```
 python gpg_generate_cli.py --email_id <email> \
 --project_id <gcp project id> \
---kms_keyring <cloud kms key ring name> \
+--kms_kring <cloud kms key ring name> \
 --kms_key <cloud kms key name> \
---private_key_id <private key id in GCP secrets manager> \
---passphrase_id <passphrase id in secrets manager>
+--privkey_sid <private key secret id in GCP secrets manager> \
+--pass_sid <passphrase secret id in secrets manager>
 ```
 
  - To decrypt the encrypted file and store the plaintext file in a GCP Storage Bucket.
 
  ```
  python gpg_decrypt_cli.py --project_id <gcp project id> \
- --kms_keyring <cloud kms key ring name> \
+ --kms_kring <cloud kms key ring name> \
  --kms_key <cloud kms key name> \
- --private_key_id <private key id in GCP secrets manager> \
- --passphrase_id <passphrase id in secrets manager> \
- --encrypted_file_path <path to encrypted file on disk> \
- --bucket_name <gcp cloud storage bucket name>
+ --privkey_sid <private key secret id in GCP secrets manager> \
+ --pass_sid <passphrase secret id in secrets manager> \
+ --input_path <location of encrypted file on disk> \
+ --bucket <gcp cloud storage bucket name>
  ```
 
 - To decrypt the encrypted file and store the plaintext file on disk.
@@ -96,12 +96,14 @@ python gpg_generate_cli.py --email_id <email> \
  python gpg_decrypt_cli.py --project_id <gcp project id> \
  --kms_keyring <cloud kms key ring name>\
  --kms_key <cloud kms key name> \
- --private_key_id <private key id in GCP secrets manager> \
- --passphrase_id <passphrase id in secrets manager> \
- --encrypted_file_path <path to encrypted file on disk> \
- --decrypted_file_path <path to store decrypted file on disk>
+ --privkey_sid <private key secret id in GCP secrets manager>\
+ --pass_sid <passphrase secret id in secrets manager> \
+ --input_path <location of encrypted file on disk.> \
+ --output_path <Location to write decrypted file to on disk>
  ```
 
 > [!NOTE] 
 >
-> All flags are mandatory. For the decrypt operation, you must either specify a cloud storage bucket or location on disk to store the decrypted file.
+> All flags are mandatory with the exception of --output_path, --bucket and --version for decrypt operations. 
+> You must specify either a bucket name or output path to store decrypted file.
+> --version number is optional and defaults to the version 1 secret if not specified.
