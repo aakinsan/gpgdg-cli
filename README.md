@@ -37,7 +37,7 @@ The project aims to address the following security concerns:
     - Service Account Token Creator role on the service account with the assigned roles above.
 
 - GCP Resources:
-    The following resources will bre required - Ensure the APIs are enabled.
+    Ensure the APIs are enabled.
     - Cloud KMS Symmetric encrypt/decrypt key.
     - Cloud Storage bucket. 
     - Cloud Logging.
@@ -78,17 +78,16 @@ $ gcloud config set project <gcp_project_id>
 ### Usage
  - To generate a keypair and store the encrypted passphrase and passphrase protected private key in Secrets manager.
 
-```
-python gpg_generate_cli.py --email_id <email> \
-    --project_id <gcp project id> \
-    --kms_kring <cloud kms key ring name> \
-    --kms_key <cloud kms key name> \
-    --privkey_sid <private key secret id in GCP secrets manager> \
-    --pass_sid <passphrase secret id in secrets manager> \
-    --output_path <Location on disk to store public key>
+```Shell
+python gpg_generate_cli.py --email_id "email" \
+    --project_id "gcp_project_id" \
+    --kms_key "cloud_kms_key_name" \
+    --privkey_sid "private-key_secret-id_in_GCP_secrets_manager" \
+    --pass_sid "passphrase_secret-id_in_secrets_manager" \
+    --output_path "path_to_write_public-key_to_on_disk"
 ```
 
- - To decrypt the encrypted file and store the plaintext file in a GCP Storage Bucket.
+ - To decrypt the encrypted file and store the plaintext blob in a GCP Storage Bucket.
 
  ```Shell
  python gpg_decrypt_cli.py --project_id "gcp_project_id" \
