@@ -89,7 +89,7 @@ python gpg_generate_cli.py --email_id "email" \
 
  - To decrypt the encrypted file and store the plaintext blob in a GCP Storage Bucket.
 
- ```Shell
+ ```Ruby
  python gpg_decrypt_cli.py --project_id "gcp_project_id" \
     --kms_keyring "cloud_kms_keyring_name"\
     --kms_key "cloud_kms_key_name" \
@@ -102,7 +102,7 @@ python gpg_generate_cli.py --email_id "email" \
 
 - To decrypt the encrypted file and store the plaintext file on disk.
 
- ```Shell
+ ```Python
  python gpg_decrypt_cli.py --project_id "gcp_project_id" \
     --kms_keyring "cloud_kms_keyring_name"\
     --kms_key "cloud_kms_key_name" \
