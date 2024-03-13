@@ -22,12 +22,15 @@ The project aims to address the following security concerns:
 - Utilizes service account impersonation for all calls to GCP APIs.
 
 ## Installation
+> [!NOTE]  
+>
+> This tool has only been deployed and tested on Linux Ubuntu/Debian OS.
 
 ### Dependencies
  - A service account with the following roles:
     - Cloud KMS: Cloud KMS CryptoKey Encrypter/Decrypter role.
     - Secret Manager: Secret Manager Admin role.
-    - Cloud Storage: Storage Object User role + storage.buckets.get permission (replace permission with with Storage Insights collectore service role).
+    - Cloud Storage: Storage Object User role + Storage Insights collector service r.
     - Cloud Logging: Logs Writer role.
 
 - The user running the tool will require the following role:
@@ -42,9 +45,12 @@ The project aims to address the following security concerns:
     - Steps to install can be found here - https://cloud.google.com/sdk/docs/install#deb
 
 - Clone this github repo.
+```
+$ git clone https://github.com/aakinsan/gpgdg-cli.git
+$ cd gpgdg-cli/
+```
 
 - Setup python virtual environment. 
-
 ```
 $ sudo apt install python3.10-venv
 $ python3 -m venv venv
@@ -57,7 +63,7 @@ $ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-- Setup Application Default Credentials (ADC) and impersonate service account using gcloud - https://cloud.google.com/docs/authentication/provide-credentials-adc.
+- Setup Application Default Credentials (ADC) and impersonate service account using gcloud (- https://cloud.google.com/docs/authentication/provide-credentials-adc) and login using the user account that has been assigned the service account token creator role. 
 
 ```
 $ gcloud auth application-default login --impersonate-service-account <service_account_name>@<project_id>.iam.gserviceaccount.com

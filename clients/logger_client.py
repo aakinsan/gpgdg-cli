@@ -5,9 +5,15 @@ Logging Module
 
 import google.cloud.logging
 import logging
+from absl import flags
+
+# Assigning FlagValues Object to FLAGS
+FLAGS = flags.FLAGS
+
+flags.DEFINE_string("project_id", None, "The GCP project ID.")
 
 # Instantiates a Google Cloud Logging Client
-client = google.cloud.logging.Client()
+client = google.cloud.logging.Client(FLAGS.project_id)
 
 # Retrieves a Cloud Logging handler
 client.setup_logging()
