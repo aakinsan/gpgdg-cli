@@ -12,6 +12,7 @@ The project aims to address the following security concerns:
 - Limited control and visibility over the security state/profile of the employee's laptop.
 
 ## Features
+- Utilizes elliptic curves Algos - key-curve ed25519 and cv25519.
 - 32 character passphrase made up of letters, numbers and special characters is generated to password-protect the private key.
 - This passphrase will remain unknown to anybody. 
 - A Key Encryption Key (KEK) that never leaves Cloud KMS will be used to encrypt the passphrase.
