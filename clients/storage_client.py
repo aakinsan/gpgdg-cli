@@ -35,7 +35,7 @@ def write_public_key_to_disk(file_path: str, public_key: str) -> None:
     # Writes public key to disk
     with open(file_path, "w") as f:
         f.write(public_key)
-        gpg_logger.info(f"Public Key written to public_key.asc.")
+        gpg_logger.info(f"Public Key written to {file_path}")
 
 def write_output_file_to_disk(file_path: str, plaintext_data: gnupg.Crypt) -> None:
      # Writes output file to disk
