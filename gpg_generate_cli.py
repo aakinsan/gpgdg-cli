@@ -14,7 +14,7 @@ import sys
 from clients.logger_client import gpg_logger
 from clients.gpg_client import generate_gpg_key
 from clients.kms_client import encrypt_passphrase
-from clients.secrets_client import create_secret, add_secret
+from clients.secrets_client import create_secret, add_secret_version
 from clients.storage_client import write_public_key_to_disk
 from google.api_core.exceptions import AlreadyExists, PermissionDenied, DeadlineExceeded
 
@@ -40,18 +40,25 @@ def main(argv):
     # Call GCP Cloud KMS to encrypt passphrase.
     encrypted_passphrase = encrypt_passphrase(FLAGS.project_id, FLAGS.kms_keyring, FLAGS.kms_key, passphrase)
 
-    # Create encrypted passphrase secret object in GCP secret manager.
-    create_secret(FLAGS.project_id, FLAGS.passphrase_id)
+    # Create encrypted passphrase secret object and version in GCP secret manager if one has not been created.
+    try:
+        create_secret(FLAGS.project_id, FLAGS.passphrase_id)
+        add_secret_version(FLAGS.project_id, FLAGS.passphrase_id, encrypted_passphrase)
 
-    # Add encrypted passphrase secret version to GCP secret manager
-    add_secret(FLAGS.project_id, FLAGS.passphrase_id, encrypted_passphrase)
+    # If secret already exists, add a newer version instead.
+    except AlreadyExists:
+        add_secret_version(FLAGS.project_id, FLAGS.passphrase_id, encrypted_passphrase)
 
-    # Create private key secret object to GCP secret manager.
-    create_secret(FLAGS.project_id, FLAGS.private_key_id)
+    # Create private key secret object and version in GCP secret manager if one has not been created.
+    try: 
+        create_secret(FLAGS.project_id, FLAGS.private_key_id)
+        private_key = private_key.encode("UTF-8")
+        add_secret_version(FLAGS.project_id, FLAGS.private_key_id, private_key)
 
-    # Add private key secret version to GCP secret manager.
-    private_key = private_key.encode("UTF-8")
-    add_secret(FLAGS.project_id, FLAGS.private_key_id, private_key)
+    # If secret already exists, add a newer version instead.
+    except AlreadyExists:
+        private_key = private_key.encode("UTF-8")
+        add_secret_version(FLAGS.project_id, FLAGS.private_key_id, private_key)
 
     # Write public key to disk.
     write_public_key_to_disk(public_key)

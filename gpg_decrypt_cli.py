@@ -31,8 +31,9 @@ def validate_storage_location(flags_dict: dict) -> any:
 # Define cli flags.
 flags.DEFINE_string("kms_key", None, "The cloud KMS key name of the KEK.")
 flags.DEFINE_string("kms_keyring", None, "The cloud KMS keyring name of the KEK.")
-flags.DEFINE_string("private_key_id", None, "Secret ID of the GPG Private Key in secrets manager.")
-flags.DEFINE_string("passphrase_id", None, "Secret ID of the encrypted passphrase in secrets manager.")
+flags.DEFINE_string("private_key_secret_id", None, "Secret ID of the GPG Private Key in secrets manager.")
+flags.DEFINE_string("secret_version_number", "1", "version number of Secret ID.")
+flags.DEFINE_string("passphrase_secret_id", None, "Secret ID of the encrypted passphrase in secrets manager.")
 flags.DEFINE_string("project_id", None, "The GCP project ID.")
 flags.DEFINE_string("encrypted_file_path", None, "Path to GPG encrypted file location on disk.")
 flags.DEFINE_string("decrypt_file_path", None, "Path to write GPG decrypted file on disk.")
@@ -47,8 +48,8 @@ def main(argv):
     del argv
 
     # Get private key and encrypted passphrase from GCP secret manager.
-    private_key = get_secret(FLAGS.project_id, FLAGS.private_key_id, "1")
-    encrypted_passphrase = get_secret(FLAGS.project_id, FLAGS.passphrase_id, "1")
+    private_key = get_secret(FLAGS.project_id, FLAGS.private_key_secret_id, FLAGS.secret_version_number)
+    encrypted_passphrase = get_secret(FLAGS.project_id, FLAGS.passphrase_secret_id, FLAGS.secret_version_number)
 
     # Decrypt encrypted passphrase via GCP Cloud KMS.
     passphrase = decrypt_passphrase(FLAGS.project_id, FLAGS.kms_keyring, FLAGS.kms_key, encrypted_passphrase)
@@ -71,7 +72,7 @@ def main(argv):
 if __name__ == "__main__":
 
     # Specify mandatory cli flags.
-    flags.mark_flags_as_required(["encrypted_file_path", "project_id", "kms_key", "kms_keyring", "private_key_id", "passphrase_id"])
+    flags.mark_flags_as_required(["encrypted_file_path", "project_id", "kms_key", "kms_keyring", "private_key_secret_id", "passphrase_secret_id"])
     
     try:
         # Run script.

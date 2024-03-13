@@ -19,7 +19,7 @@ def create_secret(project_id: str, secret_id: str) -> None:
     parent_request = {"parent": parent, "secret_id": secret_id, "secret": {"replication": {"automatic": {}}}}
     client.create_secret(request=parent_request)
 
-def add_secret(project_id: str, secret_id: str, payload: bytes) -> None:
+def add_secret_version(project_id: str, secret_id: str, payload: bytes) -> None:
     # Add secret version to secrets manager.
 
     # Initialize Secret Manager client.
