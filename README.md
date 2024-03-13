@@ -37,6 +37,7 @@ The project aims to address the following security concerns:
     - Service Account Token Creator role on the service account with the assigned roles above.
 
 - GCP Resources:
+    The following resources will bre required - Ensure the APIs are enabled.
     - Cloud KMS Symmetric encrypt/decrypt key.
     - Cloud Storage bucket. 
     - Cloud Logging.
@@ -111,9 +112,9 @@ python gpg_generate_cli.py --email_id <email> \
     --input_path <location of encrypted file on disk.> \
     --version <secret version number> \
     --output_path <Location to write decrypted file to on disk>
-    ```
+```
 
-> [!NOTE] 
+> [!NOTE]  
 >
 > All flags are mandatory with the exception of --output_path, --bucket and --version for decrypt operations. 
 > You must specify either a bucket name or output path to store the decrypted file.
