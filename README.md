@@ -79,37 +79,39 @@ $ gcloud config set project <gcp_project_id>
 
 ```
 python gpg_generate_cli.py --email_id <email> \
---project_id <gcp project id> \
---kms_kring <cloud kms key ring name> \
---kms_key <cloud kms key name> \
---privkey_sid <private key secret id in GCP secrets manager> \
---pass_sid <passphrase secret id in secrets manager> \
---output_path <Location on disk to store public key>
+    --project_id <gcp project id> \
+    --kms_kring <cloud kms key ring name> \
+    --kms_key <cloud kms key name> \
+    --privkey_sid <private key secret id in GCP secrets manager> \
+    --pass_sid <passphrase secret id in secrets manager> \
+    --output_path <Location on disk to store public key>
 ```
 
  - To decrypt the encrypted file and store the plaintext file in a GCP Storage Bucket.
 
  ```
  python gpg_decrypt_cli.py --project_id <gcp project id> \
- --kms_kring <cloud kms key ring name> \
- --kms_key <cloud kms key name> \
- --privkey_sid <private key secret id in GCP secrets manager> \
- --pass_sid <passphrase secret id in secrets manager> \
- --input_path <location of encrypted file on disk> \
- --bucket <gcp cloud storage bucket name>
+    --kms_kring <cloud kms key ring name> \
+    --kms_key <cloud kms key name> \
+    --privkey_sid <private key secret id in GCP secrets manager> \
+    --pass_sid <passphrase secret id in secrets manager> \
+    --input_path <location of encrypted file on disk> \
+    --version <secret version number> \
+    --bucket <gcp cloud storage bucket name>
  ```
 
 - To decrypt the encrypted file and store the plaintext file on disk.
 
  ```
  python gpg_decrypt_cli.py --project_id <gcp project id> \
- --kms_keyring <cloud kms key ring name>\
- --kms_key <cloud kms key name> \
- --privkey_sid <private key secret id in GCP secrets manager>\
- --pass_sid <passphrase secret id in secrets manager> \
- --input_path <location of encrypted file on disk.> \
- --output_path <Location to write decrypted file to on disk>
- ```
+    --kms_keyring <cloud kms key ring name>\
+    --kms_key <cloud kms key name> \
+    --privkey_sid <private key secret id in GCP secrets manager>\
+    --pass_sid <passphrase secret id in secrets manager> \
+    --input_path <location of encrypted file on disk.> \
+    --version <secret version number> \
+    --output_path <Location to write decrypted file to on disk>
+    ```
 
 > [!NOTE] 
 >
