@@ -28,7 +28,7 @@ def write_output_file_to_bucket(google_project_id: str, storage_bucket: str, dat
         date_time_format = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
         blob_path = f"output_files/{date_time_format}-outputfile.txt"
         blob = Blob(blob_path, output_file_storage_bucket)
-        blob.upload_from_string(data)
+        blob.upload_from_string(data.data)
         gpg_logger.info(f"output file uploaded to {storage_bucket} bucket.")
 
 def write_public_key_to_disk(file_path: str, public_key: str) -> None:
