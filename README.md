@@ -103,7 +103,7 @@ python gpg_generate_cli.py --email_id <email> \
 
 - To decrypt the encrypted file and store the plaintext file on disk.
 
- ```
+ ```Shell
  python gpg_decrypt_cli.py --project_id <gcp project id> \
     --kms_keyring "cloud_kms_keyring_name"\
     --kms_key `<cloud kms key name>` \
