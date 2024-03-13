@@ -56,7 +56,7 @@ def get_secret(project_id: str, secret_id: str, version_id: str) -> bytes:
     payload = response.payload.data
 
     # Log Message.
-    gpg_logger.info(f"{secret_id} retrieved from GCP Secret Manager")
+    gpg_logger.info(f"{secret_id} secret retrieved from GCP Secret Manager")
 
     # return payload.
     return payload

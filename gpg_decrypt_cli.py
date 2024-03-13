@@ -64,7 +64,7 @@ def main(argv):
         if FLAGS.output_path:
             write_output_file_to_disk(FLAGS.output_path, plaintext_data)
         else:
-            write_output_file_to_bucket(FLAGS.project_id, FLAGS.bucket, plaintext_data.data.decode("UTF-8"))
+            write_output_file_to_bucket(FLAGS.project_id, FLAGS.bucket, plaintext_data)
     else:
         gpg_logger.error(f"decryption failed: {plaintext_data.stderr}")
 
