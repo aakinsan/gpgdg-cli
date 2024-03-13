@@ -1,3 +1,13 @@
+"""
+gpg_generate_cli - entry program for keypair generation and storage in secrets manager.
+    - Generates private key, public key and passphrase.
+    - Exports passphrase protected private key and public key.
+    - Calls Cloud KMS to encrypt passphrase. 
+    - Stores encrypted passphrase and password protected private key in secrets manager.
+    - decrypts output file using private key.
+    - Writes the public key to disk. 
+"""
+
 from absl import app
 from absl import flags
 import sys
@@ -11,7 +21,7 @@ from google.api_core.exceptions import AlreadyExists, PermissionDenied, Deadline
 # Assigning FlagValues Object to FLAGS
 FLAGS = flags.FLAGS
 
-# Define flags
+# Define cli flags.
 flags.DEFINE_string("kms_key", None, "The cloud KMS key name of the KEK.")
 flags.DEFINE_string("kms_keyring", None, "The cloud KMS keyring name of the KEK.")
 flags.DEFINE_string("email_id", None, "The email assigned to the GPG key.")
@@ -39,25 +49,28 @@ def main(argv):
     # Create private key secret object to GCP secret manager.
     create_secret(FLAGS.project_id, FLAGS.private_key_id)
 
-    # Add private key secret version to GCP secret manager
+    # Add private key secret version to GCP secret manager.
     private_key = private_key.encode("UTF-8")
     add_secret(FLAGS.project_id, FLAGS.private_key_id, private_key)
 
-    # Create Public Key File
+    # Write public key to disk.
     write_public_key_to_disk(public_key)
 
+# Check if script is run directly.
 if __name__ == "__main__":
 
-    # Mark required flags
+    # Specify mandatory cli flags.
     flags.mark_flags_as_required(["email_id", "project_id", "kms_key", "kms_keyring", "private_key_id", "passphrase_id"])
     
     try:
+        # Run script
         app.run(main)
 
     except AlreadyExists as err:
         gpg_logger.error(f"An error occured: the gcp resource already exists: {err}: Exiting...")
         sys.exit(1)
-    
+        
+     # Catch exceptions.
     except PermissionDenied as err:
         gpg_logger.error(f"not enough permission: {err}: Exiting...")
         sys.exit(1)
