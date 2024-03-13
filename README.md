@@ -105,7 +105,7 @@ python gpg_generate_cli.py --email_id <email> \
 
  ```
  python gpg_decrypt_cli.py --project_id <gcp project id> \
-    --kms_keyring <cloud kms key ring name>\
+    --kms_keyring `<cloud kms key ring name>`\
     --kms_key <cloud kms key name> \
     --privkey_sid <private key secret id in GCP secrets manager>\
     --pass_sid <passphrase secret id in secrets manager> \
