@@ -90,28 +90,28 @@ python gpg_generate_cli.py --email_id <email> \
 
  - To decrypt the encrypted file and store the plaintext file in a GCP Storage Bucket.
 
- ```
- python gpg_decrypt_cli.py --project_id <gcp project id> \
-    --kms_kring <cloud kms key ring name> \
-    --kms_key <cloud kms key name> \
-    --privkey_sid <private key secret id in GCP secrets manager> \
-    --pass_sid <passphrase secret id in secrets manager> \
-    --input_path <location of encrypted file on disk> \
-    --version <secret version number> \
-    --bucket <gcp cloud storage bucket name>
+ ```Shell
+ python gpg_decrypt_cli.py --project_id "gcp_project_id" \
+    --kms_keyring "cloud_kms_keyring_name"\
+    --kms_key "cloud_kms_key_name" \
+    --privkey_sid "private-key_secret-id_in_GCP_secrets_manager" \
+    --pass_sid "passphrase_secret-id_in_secrets_manager" \
+    --input_path "path_to_encrypted_file_on_disk" \
+    --version "secret_version_number" \
+    --bucket "gcp_cloud_storage_bucket_name"
  ```
 
 - To decrypt the encrypted file and store the plaintext file on disk.
 
  ```Shell
- python gpg_decrypt_cli.py --project_id <gcp project id> \
+ python gpg_decrypt_cli.py --project_id "gcp_project_id" \
     --kms_keyring "cloud_kms_keyring_name"\
     --kms_key "cloud_kms_key_name" \
     --privkey_sid "private-key_secret-id_in_GCP_secrets_manager" \
-    --pass_sid <passphrase secret id in secrets manager> \
-    --input_path <location of encrypted file on disk> \
-    --version <secret version number> \
-    --output_path <Location to write decrypted file to on disk>
+    --pass_sid "passphrase_secret-id_in_secrets_manager" \
+    --input_path "path_to_encrypted_file_on_disk" \
+    --version "secret_version_number" \
+    --output_path "path_to_write_decrypted_file_to_on_disk"
 ```
 
 > [!NOTE]  
