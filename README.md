@@ -30,7 +30,7 @@ The project aims to address the following security concerns:
  - A service account with the following roles:
     - Cloud KMS: Cloud KMS CryptoKey Encrypter/Decrypter role.
     - Secret Manager: Secret Manager Admin role.
-    - Cloud Storage: Storage Object User role + Storage Insights collector service r.
+    - Cloud Storage: Storage Object User role + Storage Insights collector service role.
     - Cloud Logging: Logs Writer role.
 
 - The user running the tool will require the following role:

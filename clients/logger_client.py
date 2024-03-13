@@ -4,6 +4,8 @@ Logging Module
 """
 
 import google.cloud.logging
+
+"""
 import logging
 
 # Instantiates a Google Cloud Logging Client
@@ -29,3 +31,15 @@ gpg_handler.setFormatter(gpg_format)
 
 # Add handler to logger.
 gpg_logger.addHandler(gpg_handler)
+"""
+
+# Imports the Google Cloud client library
+from google.cloud import logging
+
+# Instantiates a client
+logging_client = logging.Client()
+
+# The name of the log to write to
+log_name = "gpg_logger"
+# Selects the log to write to
+gpg_logger = logging_client.logger(log_name)
