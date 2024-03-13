@@ -78,7 +78,7 @@ $ gcloud config set project <gcp_project_id>
 ### Usage
  - To generate a keypair and store the encrypted passphrase and passphrase protected private key in Secrets manager.
 
-```Shell
+```Ruby
 python gpg_generate_cli.py --email_id "email" \
     --project_id "gcp_project_id" \
     --kms_key "cloud_kms_key_name" \
@@ -102,7 +102,7 @@ python gpg_generate_cli.py --email_id "email" \
 
 - To decrypt the encrypted file and store the plaintext file on disk.
 
- ```Python
+ ```Ruby
  python gpg_decrypt_cli.py --project_id "gcp_project_id" \
     --kms_keyring "cloud_kms_keyring_name"\
     --kms_key "cloud_kms_key_name" \
