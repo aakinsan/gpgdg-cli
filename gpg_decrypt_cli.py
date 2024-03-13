@@ -21,26 +21,26 @@ FLAGS = flags.FLAGS
 
 # Validation Function to ensure either a storage bucket or disk location is chosen to store output files.
 def validate_storage_location(flags_dict: dict) -> any:
-    if flags_dict["bucket_name"] and flags_dict["decrypt_file_path"]:
+    if flags_dict["bucket"] and flags_dict["output_path"]:
         raise ValueError("Specify either a bucket name or path on disk to store output file")
-    elif flags_dict["bucket_name"] is None and flags_dict["decrypt_file_path"] is None:
+    elif flags_dict["bucket"] is None and flags_dict["output_path"] is None:
         raise ValueError("Specify either a bucket name or path on disk to store output file")
     else:
         return True
 
 # Define cli flags.
 flags.DEFINE_string("kms_key", None, "The cloud KMS key name of the KEK.")
-flags.DEFINE_string("kms_keyring", None, "The cloud KMS keyring name of the KEK.")
-flags.DEFINE_string("private_key_secret_id", None, "Secret ID of the GPG Private Key in secrets manager.")
+flags.DEFINE_string("kms_kring", None, "The cloud KMS keyring name of the KEK.")
+flags.DEFINE_string("privkey_sid", None, "Secret ID of the GPG Private Key in secrets manager.")
 flags.DEFINE_string("secret_version_number", "1", "version number of Secret ID.")
-flags.DEFINE_string("passphrase_secret_id", None, "Secret ID of the encrypted passphrase in secrets manager.")
+flags.DEFINE_string("pass_sid", None, "Secret ID of the encrypted passphrase in secrets manager.")
 flags.DEFINE_string("project_id", None, "The GCP project ID.")
-flags.DEFINE_string("encrypted_file_path", None, "Path to GPG encrypted file location on disk.")
-flags.DEFINE_string("decrypt_file_path", None, "Path to write GPG decrypted file on disk.")
-flags.DEFINE_string("bucket_name", None, "Path to write GPG decrypted blob to cloud storage bucket.")
+flags.DEFINE_string("input_path", None, "location of encrypted file on disk.")
+flags.DEFINE_string("output_path", None, "Location to write decrypted file on disk.")
+flags.DEFINE_string("bucket", None, "Cloud Storage bucket name to upload decrypted blob; files are stored at the path <bucket_name>/output-files")
 
 # Validate Storage Location Flag.
-flags.register_multi_flags_validator(['bucket_name', "decrypt_file_path"], validate_storage_location)
+flags.register_multi_flags_validator(['bucket', "output_path"], validate_storage_location)
 
 def main(argv):
 
@@ -48,23 +48,23 @@ def main(argv):
     del argv
 
     # Get private key and encrypted passphrase from GCP secret manager.
-    private_key = get_secret(FLAGS.project_id, FLAGS.private_key_secret_id, FLAGS.secret_version_number)
-    encrypted_passphrase = get_secret(FLAGS.project_id, FLAGS.passphrase_secret_id, FLAGS.secret_version_number)
+    private_key = get_secret(FLAGS.project_id, FLAGS.privkey_sid, FLAGS.secret_version_number)
+    encrypted_passphrase = get_secret(FLAGS.project_id, FLAGS.pass_sid, FLAGS.secret_version_number)
 
     # Decrypt encrypted passphrase via GCP Cloud KMS.
-    passphrase = decrypt_passphrase(FLAGS.project_id, FLAGS.kms_keyring, FLAGS.kms_key, encrypted_passphrase)
+    passphrase = decrypt_passphrase(FLAGS.project_id, FLAGS.kms_kring, FLAGS.kms_key, encrypted_passphrase)
     passphrase = passphrase.decode("UTF-8")
 
     # Decrypt gpg encrypted file.
     private_key = private_key.decode("UTF-8")
-    plaintext_data = decrypt_gpg_file(private_key, passphrase, FLAGS.encrypted_file_path)
+    plaintext_data = decrypt_gpg_file(private_key, passphrase, FLAGS.input_path)
 
     # if decryption is successful, write output file data to disk or cloud storage else log a decryption error.
     if plaintext_data.ok:
-        if FLAGS.decrypt_file_path:
-            write_output_file_to_disk(FLAGS.decrypt_file_path, plaintext_data.data.decode("UTF-8"))
+        if FLAGS.output_path:
+            write_output_file_to_disk(FLAGS.output_path, plaintext_data.data.decode("UTF-8"))
         else:
-            write_output_file_to_bucket(FLAGS.project_id, FLAGS.bucket_name, plaintext_data.data.decode("UTF-8"))
+            write_output_file_to_bucket(FLAGS.project_id, FLAGS.bucket, plaintext_data.data.decode("UTF-8"))
     else:
         gpg_logger.error(f"decryption failed: {plaintext_data.stderr}")
 
@@ -72,7 +72,7 @@ def main(argv):
 if __name__ == "__main__":
 
     # Specify mandatory cli flags.
-    flags.mark_flags_as_required(["encrypted_file_path", "project_id", "kms_key", "kms_keyring", "private_key_secret_id", "passphrase_secret_id"])
+    flags.mark_flags_as_required(["input_path", "project_id", "kms_key", "kms_kring", "privkey_sid", "pass_sid"])
     
     try:
         # Run script.

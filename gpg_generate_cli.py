@@ -23,10 +23,10 @@ FLAGS = flags.FLAGS
 
 # Define cli flags.
 flags.DEFINE_string("kms_key", None, "The cloud KMS key name of the KEK.")
-flags.DEFINE_string("kms_keyring", None, "The cloud KMS keyring name of the KEK.")
+flags.DEFINE_string("kms_kring", None, "The cloud KMS keyring name of the KEK.")
 flags.DEFINE_string("email_id", None, "The email assigned to the GPG key.")
-flags.DEFINE_string("private_key_id", None, "Secret ID of the GPG Private Key in secrets manager.")
-flags.DEFINE_string("passphrase_id", None, "Secret ID of the encrypted passphrase in secrets manager.")
+flags.DEFINE_string("privkey_sid", None, "Secret ID of the GPG Private Key in secrets manager.")
+flags.DEFINE_string("pass_sid", None, "Secret ID of the encrypted passphrase in secrets manager.")
 flags.DEFINE_string("project_id", None, "The GCP project ID.")
 
 def main(argv):
@@ -38,27 +38,27 @@ def main(argv):
     private_key, public_key, passphrase = generate_gpg_key(FLAGS.email_id)
     
     # Call GCP Cloud KMS to encrypt passphrase.
-    encrypted_passphrase = encrypt_passphrase(FLAGS.project_id, FLAGS.kms_keyring, FLAGS.kms_key, passphrase)
+    encrypted_passphrase = encrypt_passphrase(FLAGS.project_id, FLAGS.kms_kring, FLAGS.kms_key, passphrase)
 
     # Create encrypted passphrase secret object and version in GCP secret manager if one has not been created.
     try:
-        create_secret(FLAGS.project_id, FLAGS.passphrase_id)
-        add_secret_version(FLAGS.project_id, FLAGS.passphrase_id, encrypted_passphrase)
+        create_secret(FLAGS.project_id, FLAGS.pass_sid)
+        add_secret_version(FLAGS.project_id, FLAGS.pass_sid, encrypted_passphrase)
 
-    # If secret already exists, add a newer version instead.
+    # If secret already exists, add a newer version.
     except AlreadyExists:
-        add_secret_version(FLAGS.project_id, FLAGS.passphrase_id, encrypted_passphrase)
+        add_secret_version(FLAGS.project_id, FLAGS.pass_sid, encrypted_passphrase)
 
     # Create private key secret object and version in GCP secret manager if one has not been created.
     try: 
-        create_secret(FLAGS.project_id, FLAGS.private_key_id)
+        create_secret(FLAGS.project_id, FLAGS.privkey_sid)
         private_key = private_key.encode("UTF-8")
-        add_secret_version(FLAGS.project_id, FLAGS.private_key_id, private_key)
+        add_secret_version(FLAGS.project_id, FLAGS.privkey_sid, private_key)
 
-    # If secret already exists, add a newer version instead.
+    # If secret already exists, add a newer version.
     except AlreadyExists:
         private_key = private_key.encode("UTF-8")
-        add_secret_version(FLAGS.project_id, FLAGS.private_key_id, private_key)
+        add_secret_version(FLAGS.project_id, FLAGS.privkey_sid, private_key)
 
     # Write public key to disk.
     write_public_key_to_disk(public_key)
@@ -67,7 +67,7 @@ def main(argv):
 if __name__ == "__main__":
 
     # Specify mandatory cli flags.
-    flags.mark_flags_as_required(["email_id", "project_id", "kms_key", "kms_keyring", "private_key_id", "passphrase_id"])
+    flags.mark_flags_as_required(["email_id", "project_id", "kms_key", "kms_kring", "privkey_sid", "pass_sid"])
     
     try:
         # Run script
