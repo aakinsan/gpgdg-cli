@@ -80,17 +80,17 @@ if __name__ == "__main__":
     
     # Catch exceptions.
     except PermissionDenied as err:
-        gpg_logger.log(f"not enough permission: {err}: Exiting...")
+        gpg_logger.error(f"not enough permission: {err}: Exiting...")
         sys.exit(1)
 
     except DeadlineExceeded as err:
-        gpg_logger.log(f"communication failure on server side - retry gpg_decrypt_cli: {err}: Exiting...")
+        gpg_logger.error(f"communication failure on server side - retry gpg_decrypt_cli: {err}: Exiting...")
         sys.exit(1)
 
     except FileNotFoundError as err:
-        gpg_logger.log(f"encrypted file not found: {err}: Exiting...")
+        gpg_logger.error(f"encrypted file not found: {err}: Exiting...")
         sys.exit(1)
     
     except Exception as err:
-        gpg_logger.log(f"An error occured: {err}: Exiting...")
+        gpg_logger.error(f"An error occured: {err}: Exiting...")
         sys.exit(1)

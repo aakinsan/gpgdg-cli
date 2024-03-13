@@ -22,8 +22,8 @@ def encrypt_passphrase(project_id: str, keyring_name: str, key_name: str, payloa
     response = client.encrypt(request=request)
 
     # Log message.
-    # gpg_logger.info(f"Passphrase encrypted with Cloud KMS key.")
-    gpg_logger.log("Passphrase encrypted with Cloud KMS key.")
+    gpg_logger.info(f"Passphrase encrypted with Cloud KMS key.")
+
 
     # Return encrypted passphrase.
     return response.ciphertext
@@ -43,8 +43,7 @@ def decrypt_passphrase(project_id: str, keyring_name: str, key_name: str, encryp
     response = client.decrypt(request=request)
 
     # Log Message.
-    # gpg_logger.info(f"Passphrase decrypted with Cloud KMS key.")
-    gpg_logger.log("Passphrase decrypted with Cloud KMS key.")
+    gpg_logger.info(f"Passphrase decrypted with Cloud KMS key.")
     
     # Return decrypted passphrase.
     return response.plaintext

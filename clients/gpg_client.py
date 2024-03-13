@@ -34,8 +34,7 @@ def generate_gpg_key(email: str) -> tuple[str, str, str]:
     key = gpg.gen_key(input_data)
 
     # Log key generation.
-    # gpg_logger.info(f"GPG KeyPair generated.")
-    gpg_logger.log("GPG KeyPair generated.")
+    gpg_logger.info(f"GPG KeyPair generated.")
     
     # Exports private (secured) and public keys.
     private_key = gpg.export_keys(key.fingerprint, True, passphrase=passphrase)
@@ -59,8 +58,7 @@ def decrypt_gpg_file(private_key: str, passphrase: str, encrypted_file_path: str
     # Decrypt file and print status.
     with open(encrypted_file_path, "rb") as f:
         plaintext_data = gpg.decrypt_file(f, passphrase=passphrase)
-        # gpg_logger.info(f"File decrypted with GPG Private key.")
-        gpg_logger.log("File decrypted with GPG Private key.")
+        gpg_logger.info(f"File decrypted with GPG Private key.")
 
     # Clearing cache to ensure the gpg-agent does not cache the correct passphrase.
     # Could lead to a backdoor where a malicious user only has to put in any
@@ -68,8 +66,7 @@ def decrypt_gpg_file(private_key: str, passphrase: str, encrypted_file_path: str
     # of the documentation - https://gnupg.readthedocs.io/en/latest/#decryption.
     cli_command = "echo RELOADAGENT | gpg-connect-agent"
     subprocess.run(cli_command, shell=True, text=True, stdout=subprocess.DEVNULL)
-    # gpg_logger.info(f"Cleared gpg-agent cache to prevent passphrase caching.")
-    gpg_logger.log("File decrypted with GPG Private key.")
+    gpg_logger.info(f"Cleared gpg-agent cache to prevent passphrase caching.")
     
     # delete temp dir.
     shutil.rmtree(gpg_home)
